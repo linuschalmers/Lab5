@@ -10,7 +10,26 @@ que1 = "Is she a scientist?"
 que2 :: String
 que2 = "Is sha an actress?"
 
+tree = (Q "Is she from Europe?" (Q "Is she a scientist?" (Ans) (Ans) ) (Q "Is she an actress?" (Ans) (Ans) ) )
+
+{-
 tree = 
+   question "Is she from Europe?"
+        if (yesNoQ == True) then
+            question "Is she a scientist?"
+                if (yesNoQ == True) then
+                 QA Ans "Marie Curie"
+                else QA Ans "Queen Elisabeth II"
+        else if (yesNoQ == False) then 
+             question "Is she an actress?"
+                 if (yesNoQ == True) then
+                     QA Ans "Marilyn Monroe"
+                 else QA Ans "Hillare Clinton"
+        else ":)"
+-}
+
+
+            
 
 question :: String -> IO String
 question que = do
@@ -24,16 +43,16 @@ yesNoQ que = do
     if head ans ==  'y' then return True
     else return False
 
-play :: QA -> IO QA
+play :: QA -> IO ()
+play (Ans a) = do 
+    putStrLn ("Is it " ++ show a ++ "?")
 play (Q que que1 que2) = do
     ans <- yesNoQ que
-    if ans == True then que1
-    else que2    
+    if ans == True then play que1
+    else play que2   
 
 
 
 
 --main :: IO ()
     
-
-
