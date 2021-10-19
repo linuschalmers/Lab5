@@ -11,7 +11,7 @@ que1 = "Is she a scientist?"
 que2 :: String
 que2 = "Is sha an actress?"
 
-tree = (Q "Is she from Europe?" (Q "Is she a scientist?" (Ans ) (Ans) ) (Q "Is she an actress?" (Ans) (Ans) ) )
+tree = (Q "Is she from Europe?" (Q "Is she a scientist?" (Ans "Marie Curie") (Ans "Queen Elibeth II") ) (Q "Is she an actress?" (Ans "Marilyn Monroe") (Ans "Hillary Clinton") ))
 
 {-
 tree = 
