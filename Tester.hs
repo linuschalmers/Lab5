@@ -15,6 +15,7 @@ greet = do
     putStrLn "What is your name?"
     name <- getLine 
     putStrLn ("Hello " ++ name ++ ".")
+    
 {-
 greet2 :: IO ()
 greet2 = do 
