@@ -11,7 +11,7 @@ que1 = "Is she a scientist?"
 que2 :: String
 que2 = "Is sha an actress?"
 
-tree = (Q "Is she from Europe?" (Q "Is she a scientist?" (Ans "Marie Curie") (Ans "Queen Elibeth II") ) (Q "Is she an actress?" (Ans "Marilyn Monroe") (Ans "Hillary Clinton") ))
+tree = (Q "Is she from Europe? " (Q "Is she a scientist? " (Ans "Marie Curie") (Ans "Queen Elibeth II") ) (Q "Is she an actress?" (Ans "Marilyn Monroe") (Ans "Hillary Clinton") ))
 
 {-
 tree = 
@@ -45,7 +45,13 @@ yesNoQ que = do
 
 play :: QA -> IO ()
 play (Ans a) = do 
-    putStrLn ("Is it " ++ show a ++ "?")
+    putStrLn ("Is it " ++ show a ++ "? ")
+    ans <- getLine 
+    ans1 <- yesNoQ ans
+    if (ans1) then 
+         putStrLn ("Woho, I win")
+    else putStrLn ("Ok, you win this time")
+
 play (Q que que1 que2) = do
     ans <- yesNoQ que
     if ans == True then play que1
