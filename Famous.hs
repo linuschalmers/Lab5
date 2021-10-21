@@ -12,24 +12,6 @@ que2 :: String
 que2 = "Is sha an actress?"
 
 tree = (Q "Is she from Europe? " (Q "Is she a scientist? " (Ans "Marie Curie") (Ans "Queen Elibeth II") ) (Q "Is she an actress?" (Ans "Marilyn Monroe") (Ans "Hillary Clinton") ))
-
-{-
-tree = 
-   question "Is she from Europe?"
-        if (yesNoQ == True) then
-            question "Is she a scientist?"
-                if (yesNoQ == True) then
-                 QA Ans "Marie Curie"
-                else QA Ans "Queen Elisabeth II"
-        else if (yesNoQ == False) then 
-             question "Is she an actress?"
-                 if (yesNoQ == True) then
-                     QA Ans "Marilyn Monroe"
-                 else QA Ans "Hillare Clinton"
-        else ":)"
--}
-
-
             
 
 question :: String -> IO String
@@ -55,30 +37,17 @@ play (Ans a) = do
         person <- question ("Just curious: Who was your famous person?") 
         newquestion <- question ("Give me a question for which the answer for " ++ person ++ " is yes and the answer for " ++ a ++ " is no: " )
         return (Q newquestion (Ans person) (Ans a))
-play (Q que que1 que2) = do
+play (Q que yes no) = do
     ans <- yesNoQ que
-        if ans == True then (Q que (play que1) que2)
-        else (Q que que1 (play que2))   
+        if ans == True then (Q que (play yes) no)
+        else (Q que yes (play no))   
 
 
 
 
 
-{-
-newQuestion :: Bool -> String
-newQuestion ans 
-    if (ans == False) then
-         question ("Just curious: Who was your famous person?")
-    else 
-        putStrLn("Hi")
-  
 
-newQuestion :: QA -> IO QA  
-newQuestion (Q que que1 que2)= do
-    
-   -}
 
-       
 
 --main :: IO ()
     
