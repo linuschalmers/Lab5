@@ -57,8 +57,12 @@ play (Ans a) = do
         return (Q newquestion (Ans person) (Ans a))
 play (Q que que1 que2) = do
     ans <- yesNoQ que
-    if ans == True then (Q que (play que1) que2)
-    else (Q que que1 (play que2))   
+        if ans == True then (Q que (play que1) que2)
+        else (Q que que1 (play que2))   
+
+
+
+
 
 {-
 newQuestion :: Bool -> String
