@@ -47,18 +47,18 @@ yesNoQ que = do
 play :: QA -> IO QA
 play (Ans a) = do 
     ans <- yesNoQ ("Is it " ++ show a ++ "? ")
-    if (ans) then 
+    if (ans) then do
          putStrLn ("Woho, I win")
+         return (Ans a)
     else do
         putStrLn ("Ok - you win this time")
-        putStrLn ("Just curious: Who was your famous person?")
-        let person = getLine 
-        putStrLn ("Give me a question for which the answer for " ++  ++ " is yes and the answer for " ++ person ++ " is no" )
-        -- newQuestion (Q que que1 que2)
+        person <- question ("Just curious: Who was your famous person?") 
+        newquestion <- question ("Give me a question for which the answer for " ++ person ++ " is yes and the answer for " ++ a ++ " is no: " )
+        return (Q newquestion (Ans person) (Ans a))
 play (Q que que1 que2) = do
     ans <- yesNoQ que
-    if ans == True then play que1
-    else play que2   
+    if ans == True then (Q que (play que1) que2)
+    else (Q que que1 (play que2))   
 
 {-
 newQuestion :: Bool -> String
