@@ -2,15 +2,6 @@
 data QA = Q String QA QA | Ans String
     deriving (Show, Read)
 
-que :: String
-que = "Is she from Europe"
-
-que1 :: String
-que1 = "Is she a scientist?"
-
-que2 :: String
-que2 = "Is sha an actress?"
-
 tree = (Q "Is she from Europe? " (Q "Is she a scientist? " (Ans "Marie Curie") (Ans "Queen Elibeth II") ) (Q "Is she an actress?" (Ans "Marilyn Monroe") (Ans "Hillary Clinton") ))
             
 
@@ -34,13 +25,15 @@ play (Ans a) = do
          return (Ans a)
     else do
         putStrLn ("Ok - you win this time")
-        person <- question ("Just curious: Who was your famous person?") 
+        person <- question ("Just curious: Who was your famous person? ") 
         newquestion <- question ("Give me a question for which the answer for " ++ person ++ " is yes and the answer for " ++ a ++ " is no: " )
         return (Q newquestion (Ans person) (Ans a))
+         
 play (Q que yes no) = do
     ans <- yesNoQ que
-    if ans == True then play (Q que (play yes) no)
-    else play (Q que yes (play no))   
+    if ans == True then play yes
+    else play no
+       
 
 
 
