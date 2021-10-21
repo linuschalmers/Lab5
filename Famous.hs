@@ -29,6 +29,9 @@ tree =
         else ":)"
 -}
 
+
+            
+
 question :: String -> IO String
 question que = do
     putStr que
@@ -40,6 +43,7 @@ yesNoQ que = do
     if head ans == 'y' then return True
     else return False
 
+
 play :: QA -> IO QA
 play (Ans a) = do 
     ans <- yesNoQ ("Is it " ++ show a ++ "? ")
@@ -47,7 +51,10 @@ play (Ans a) = do
          putStrLn ("Woho, I win")
     else do
         putStrLn ("Ok - you win this time")
-        newQuestion (Q que que1 que2) (Ans a)  
+        putStrLn ("Just curious: Who was your famous person?")
+        let person = getLine 
+        putStrLn ("Give me a question for which the answer for " ++  ++ " is yes and the answer for " ++ person ++ " is no" )
+        -- newQuestion (Q que que1 que2)
 play (Q que que1 que2) = do
     ans <- yesNoQ que
     if ans == True then play que1
@@ -60,14 +67,12 @@ newQuestion ans
          question ("Just curious: Who was your famous person?")
     else 
         putStrLn("Hi")
-  -}
+  
 
 newQuestion :: QA -> IO QA  
-newQuestion (Q que que1 que2) = do
-    putStrLn ("Just curious: Who was your famous person?")
-    let person = getLine 
-    putStrLn ("Give me a question for which the answer for " ++  ++ " is yes and the answer for " ++ person ++ " is no" )
-   
+newQuestion (Q que que1 que2)= do
+    
+   -}
 
        
 
