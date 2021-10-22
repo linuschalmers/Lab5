@@ -1,9 +1,11 @@
+module Main where 
+import System.IO.Error
 
 data QA = Q String QA QA | Ans String
     deriving (Show, Read)
 
-tree = (Q "Is she from Europe? " (Q "Is she a scientist? " (Ans "Marie Curie") (Ans "Queen Elibeth II") ) (Q "Is she an actress?" (Ans "Marilyn Monroe") (Ans "Hillary Clinton") ))
-            
+tree :: QA
+tree = (Q "Is she from Europe? " (Q "Is she a scientist? " (Ans "Marie Curie") (Ans "Queen Elibeth II") ) (Q "Is she an actress?" (Ans "Marilyn Monroe") (Ans "Hillary Clinton") ))       
 
 question :: String -> IO String
 question que = do
@@ -13,7 +15,7 @@ question que = do
 yesNoQ :: String -> IO Bool
 yesNoQ que = do
     ans <- question que 
-    if head ans == 'y' then return True
+    if ans == "yes" then return True
     else return False
 
 
@@ -28,15 +30,33 @@ play (Ans a) = do
         person <- question ("Just curious: Who was your famous person? ") 
         newquestion <- question ("Give me a question for which the answer for " ++ person ++ " is yes and the answer for " ++ a ++ " is no: " )
         return (Q newquestion (Ans person) (Ans a))
-         
+        
+       
 play (Q que yes no) = do
     ans <- yesNoQ que
-    if ans == True then play yes
-    else play no
+    if ans == True then do
+        newyes <- play yes
+        return (Q que newyes no)
+    else do
+        newno <- play no 
+        return (Q que yes no)
        
 
+main :: IO ()
+main = do
+    tryError <- tryIOError (readFile "famous.qa")
+    case tryError of
+      Left _ -> do
+       newtree <- play tree
+       writeFile "famous.qa" (show newtree)
+       playAgain
+      Right _ -> do
+       readTheFile <- readFile "famous.qa"
+       newTree <- play (read readTheFile)
+       writeFile "famous.qa" (show newTree)
+       playAgain
 
-
-
---main :: IO ()
-    
+playAgain = do doYou <- yesNoQ "Do you want to play again?"
+               if doYou then (do 
+                 main) else (do
+                 putStrLn "Have a good day :)")
