@@ -1,3 +1,6 @@
+-- Authors: Albin Boklund, Linus Lindström, Isak Nordin
+-- Group: 12
+
 module Main where 
 import System.IO.Error
 
