@@ -18,7 +18,6 @@ yesNoQ que = do
     if ans == "yes" then return True
     else return False
 
-
 play :: QA -> IO QA
 play (Ans a) = do 
     ans <- yesNoQ ("Is it " ++ show a ++ "? ")
@@ -27,8 +26,8 @@ play (Ans a) = do
          return (Ans a)
     else do
         putStrLn ("Ok - you win this time")
-        person <- question ("Just curious: Who was your famous person? ") 
-        newquestion <- question ("Give me a question for which the answer for " ++ person ++ " is yes and the answer for " ++ a ++ " is no: " )
+        person <- questionAnswer ("Just curious: Who was your famous person? ") 
+        newquestion <- questionAnswer ("Give me a question for which the answer for " ++ person ++ " is yes and the answer for " ++ a ++ " is no: " )
         return (Q newquestion (Ans person) (Ans a))
         
        
