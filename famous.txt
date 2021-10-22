@@ -1,0 +1,1 @@
+Q "Is she from Europe? " (Q "Is she a scientist? " (Ans "Marie Curie") (Q "dsa" (Ans "linus") (Ans "Queen Elibeth II"))) (Q "Is she an actress?" (Ans "Marilyn Monroe") (Ans "Hillary Clinton"))

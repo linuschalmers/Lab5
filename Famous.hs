@@ -36,29 +36,28 @@ play (Ans a) = do
        
 play (Q que yes no) = do
     ans <- yesNoQ que
-    if ans == True then do
+    if ans 
+    then do
         newyes <- play yes
         return (Q que newyes no)
     else do
         newno <- play no 
-        return (Q que yes no)
-       
+        return (Q que yes newno)
 
 main :: IO ()
 main = do
-    tryError <- tryIOError (readFile "famous.qa")
-    case tryError of
-      Left _ -> do
-       newtree <- play tree
-       writeFile "famous.qa" (show newtree)
-       playAgain
-      Right _ -> do
-       readTheFile <- readFile "famous.qa"
-       newTree <- play (read readTheFile)
-       writeFile "famous.qa" (show newTree)
-       playAgain
+    qa <- readQAFile "famous.txt"
+    newtree <- play qa
+    writeFile "famous.txt" (show newtree)
+    doYou <- yesNoQ "Do you want to play again? " 
+    if doYou 
+    then main
+    else putStrLn "Have a good day :)"
 
-playAgain = do doYou <- yesNoQ "Do you want to play again?"
-               if doYou then (do 
-                 main) else (do
-                 putStrLn "Have a good day :)")
+
+readQAFile :: FilePath -> IO QA
+readQAFile filepath = do
+    tryError <- tryIOError (readFile filepath)
+    case tryError of
+        Left _ -> return tree
+        Right x -> return (read x)
