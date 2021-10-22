@@ -16,7 +16,10 @@ yesNoQ :: String -> IO Bool
 yesNoQ que = do
     ans <- question que 
     if ans == "yes" then return True
-    else return False
+    else if ans == "no" then return False
+    else do 
+        putStrLn ("Please type yes or no ") 
+        yesNoQ que
 
 play :: QA -> IO QA
 play (Ans a) = do 
@@ -26,8 +29,8 @@ play (Ans a) = do
          return (Ans a)
     else do
         putStrLn ("Ok - you win this time")
-        person <- questionAnswer ("Just curious: Who was your famous person? ") 
-        newquestion <- questionAnswer ("Give me a question for which the answer for " ++ person ++ " is yes and the answer for " ++ a ++ " is no: " )
+        person <- question ("Just curious: Who was your famous person? ") 
+        newquestion <- question ("Give me a question for which the answer for " ++ person ++ " is yes and the answer for " ++ a ++ " is no: " )
         return (Q newquestion (Ans person) (Ans a))
         
        
